@@ -9,10 +9,11 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
 ENV GRADLE_HOME=/opt/gradle/gradle-${GRADLE_VERSION}
 ENV PATH=$PATH:$GRADLE_HOME/bin
 
-RUN git clone https://github.com/sourcegraph/lsif-java.git .
-RUN gradle installDist
+RUN curl -fLo coursier https://git.io/coursier-cli \
+  && chmod +x coursier \
+  && ./coursier bootstrap --standalone -o lsif-java com.sourcegraph:lsif-java_2.13:0.6.8
 
 FROM openjdk:17-jdk-buster
 
-COPY --from=builder /build/build/ /build/build/
+COPY --from=builder /build/ /build/
 RUN apt-get update -y && apt-get install -y maven
