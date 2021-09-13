@@ -8,7 +8,7 @@ ENV GRADLE_HOME=/opt/gradle
 ENV PATH=$PATH:$GRADLE_HOME/bin
 
 RUN git clone https://github.com/sourcegraph/lsif-java.git .
-RUN ./gradle installDist
+RUN /opt/gradle installDist
 
 FROM openjdk:17-jdk-buster
 
